@@ -60,7 +60,8 @@
             contentElement = element.find('.' + contentClass)[0],
             parentElement = contentElement.parentElement,
             $nanoElement = element.hasClass(nanoClass) ? element : element.find('.' + nanoClass),
-            options = angular.extend({}, nanoScrollerDefaults, convertStringToValue(attr), scope.$eval(attr['scrollable']));
+            options = angular.extend({}, nanoScrollerDefaults, convertStringToValue(attr), scope.$eval(attr['scrollable'])),
+            elementId = attr['scrollableId'];
 
           function listener(newHeight, oldHeight) {
             // If this is first run, create nanoScroller
@@ -69,6 +70,15 @@
               scope.$evalAsync(function () {
                 $nanoElement.nanoScroller(options);
                 $nanoElement.nanoScroller();
+                // Emit event on scroll position change with the value of position
+                $nanoElement.on('update', function(event, vals){
+                  scope.$emit(elementId + 'ScrollPositionChanged', vals.position);
+                  //console.log("pos=" + vals.position + ", direction=" + vals.direction + "\n" );
+                });
+                // Listens to scrollTo event (values: 'top', 'bottom' or integer)
+                scope.$on(elementId + 'ScrollTo', function(val) {
+                  $nanoElement.nanoScroller({scroll: val});
+                });
               });
             }
             //If scroller was on the bottom, scroll to bottom

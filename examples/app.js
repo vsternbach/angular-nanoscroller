@@ -6,5 +6,8 @@
       $scope.addItem = function () {
         items.push(items[items.length - 1] + 1);
       };
+        $scope.$on('scroll1ScrollPositionChanged', function(event, val) {
+          console.log(val);
+        })
     });
 }(angular, jQuery));
