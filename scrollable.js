@@ -76,7 +76,7 @@
                   //console.log("pos=" + vals.position + ", direction=" + vals.direction + "\n" );
                 });
                 // Listens to scrollTo event (values: 'top', 'bottom' or integer)
-                scope.$on(elementId + 'ScrollTo', function(val) {
+                scope.$on(elementId + 'ScrollTo', function(event, val) {
                   $nanoElement.nanoScroller({scroll: val});
                 });
               });
